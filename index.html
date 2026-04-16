@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PadiMarkit — Africa's Most Trusted Trade Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0E0E;
+    --bg2: #161616;
+    --bg3: #1E1E1E;
+    --card: #1A1A1A;
+    --border: #2A2A2A;
+    --orange: #FF6B2B;
+    --orange-dim: #FF6B2B22;
+    --green: #2DD87A;
+    --green-dim: #2DD87A18;
+    --yellow: #FFD166;
+    --text: #F0EDE8;
+    --muted: #888880;
+    --light: #B8B4AD;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x:hidden; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:#111; } ::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(14,14,14,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0 5%; height:64px;
+  }
+  .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.25rem; letter-spacing:-0.5px; }
+  .logo span { color: var(--orange); }
+  .nav-links { display:flex; gap:32px; }
+  .nav-links a { color: var(--light); text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--orange); color:#fff; border:none; padding:10px 22px; border-radius:100px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.875rem; cursor:pointer; transition:all 0.2s; }
+  .nav-cta:hover { background:#ff8550; transform:translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; display:flex; flex-direction:column; justify-content:center;
+    padding: 100px 5% 80px;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 40%, rgba(255,107,43,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 70%, rgba(45,216,122,0.06) 0%, transparent 60%),
+      var(--bg);
+  }
+  .hero-tag { display:inline-flex; align-items:center; gap:8px; background:var(--orange-dim); border:1px solid rgba(255,107,43,0.3); color:var(--orange); padding:6px 14px; border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:28px; width:fit-content; }
+  .hero-tag::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--orange); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  h1 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2.8rem,6vw,5.5rem); line-height:1.05; letter-spacing:-2px; max-width:860px; }
+  h1 .accent { color: var(--orange); }
+  h1 .accent2 { color: var(--green); }
+  .hero-sub { color: var(--light); font-size:clamp(1rem,1.5vw,1.2rem); max-width:520px; margin-top:20px; line-height:1.7; font-weight:400; }
+  .hero-actions { display:flex; gap:16px; margin-top:40px; flex-wrap:wrap; }
+  .btn-primary { background:var(--orange); color:#fff; border:none; padding:14px 28px; border-radius:100px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:1rem; cursor:pointer; transition:all 0.25s; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary:hover { background:#ff8550; transform:translateY(-2px); box-shadow:0 12px 30px rgba(255,107,43,0.35); }
+  .btn-outline { background:transparent; color:var(--text); border:1.5px solid var(--border); padding:14px 28px; border-radius:100px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:1rem; cursor:pointer; transition:all 0.25s; }
+  .btn-outline:hover { border-color:var(--orange); color:var(--orange); transform:translateY(-2px); }
+  .hero-stats { display:flex; gap:48px; margin-top:64px; flex-wrap:wrap; }
+  .stat-item { }
+  .stat-num { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; color:var(--text); }
+  .stat-label { color:var(--muted); font-size:0.8rem; margin-top:4px; font-weight:500; }
+
+  /* ── TRUST BADGES ── */
+  .trust-bar { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:18px 5%; display:flex; align-items:center; gap:40px; overflow-x:auto; }
+  .trust-item { display:flex; align-items:center; gap:8px; white-space:nowrap; color:var(--muted); font-size:0.8rem; font-weight:500; }
+  .trust-item .icon { font-size:1.1rem; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 5%; }
+  .section-tag { display:inline-block; background:var(--green-dim); color:var(--green); border:1px solid rgba(45,216,122,0.25); padding:4px 12px; border-radius:100px; font-size:0.72rem; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:16px; }
+  .section-tag.orange { background:var(--orange-dim); color:var(--orange); border-color:rgba(255,107,43,0.25); }
+  .section-tag.yellow { background:rgba(255,209,102,0.12); color:var(--yellow); border-color:rgba(255,209,102,0.25); }
+  h2 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(1.8rem,3.5vw,3rem); letter-spacing:-1px; line-height:1.15; }
+  .sub { color:var(--light); font-size:1rem; margin-top:12px; line-height:1.7; max-width:500px; }
+
+  /* ── VERTICALS ── */
+  .verticals { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:56px; background:var(--border); border-radius:var(--radius); overflow:hidden; }
+  .vertical-card { background:var(--bg2); padding:36px 28px; cursor:pointer; transition:all 0.3s; position:relative; }
+  .vertical-card:hover { background:var(--bg3); }
+  .vertical-card.active { background:var(--card); }
+  .vertical-card.active::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .vertical-card:nth-child(1).active::after { background:var(--orange); }
+  .vertical-card:nth-child(2).active::after { background:var(--green); }
+  .vertical-card:nth-child(3).active::after { background:var(--yellow); }
+  .v-icon { font-size:2rem; margin-bottom:14px; }
+  .v-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; }
+  .v-desc { color:var(--muted); font-size:0.875rem; margin-top:8px; line-height:1.6; }
+  .v-cta { display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:0.825rem; font-weight:600; color:var(--orange); background:none; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; padding:0; }
+  .vertical-card:nth-child(2) .v-cta { color:var(--green); }
+  .vertical-card:nth-child(3) .v-cta { color:var(--yellow); }
+
+  /* ── MARKETPLACE ── */
+  #marketplace { background: var(--bg2); }
+  .filter-bar { display:flex; gap:10px; flex-wrap:wrap; margin: 28px 0; }
+  .filter-btn { background:var(--bg3); border:1px solid var(--border); color:var(--light); padding:8px 18px; border-radius:100px; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+  .filter-btn:hover { border-color:var(--orange); color:var(--orange); }
+  .filter-btn.active { background:var(--orange); border-color:var(--orange); color:#fff; }
+  .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
+  .product-card {
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    overflow:hidden; cursor:pointer; transition:all 0.25s;
+    display:flex; flex-direction:column;
+  }
+  .product-card:hover { transform:translateY(-4px); border-color:#333; box-shadow:0 16px 40px rgba(0,0,0,0.4); }
+  .product-card.hidden { display:none; }
+  .product-img { height:190px; display:flex; align-items:center; justify-content:center; font-size:5rem; position:relative; }
+  .product-badge { position:absolute; top:10px; left:10px; padding:4px 10px; border-radius:100px; font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
+  .badge-new { background:#2DD87A22; color:var(--green); border:1px solid rgba(45,216,122,0.3); }
+  .badge-used { background:#FF6B2B22; color:var(--orange); border:1px solid rgba(255,107,43,0.3); }
+  .badge-deal { background:#FFD16622; color:var(--yellow); border:1px solid rgba(255,209,102,0.3); }
+  .product-info { padding:16px; flex:1; display:flex; flex-direction:column; }
+  .product-name { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; line-height:1.3; }
+  .product-meta { color:var(--muted); font-size:0.78rem; margin-top:4px; }
+  .product-price { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:var(--orange); margin-top:auto; padding-top:12px; }
+  .product-price .original { font-size:0.78rem; color:var(--muted); text-decoration:line-through; font-weight:400; margin-left:6px; font-family:'DM Sans',sans-serif; }
+  .product-action { margin-top:12px; background:var(--orange-dim); color:var(--orange); border:1px solid rgba(255,107,43,0.3); border-radius:100px; padding:8px 16px; font-size:0.8rem; font-weight:600; cursor:pointer; width:100%; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+  .product-action:hover { background:var(--orange); color:#fff; }
+
+  /* ── HOW IT WORKS ── */
+  #howitworks { background:var(--bg); }
+  .hiw-tabs { display:flex; gap:4px; background:var(--bg2); border:1px solid var(--border); padding:4px; border-radius:100px; width:fit-content; margin: 28px 0 48px; }
+  .hiw-tab { padding:10px 22px; border-radius:100px; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; border:none; background:none; color:var(--muted); font-family:'DM Sans',sans-serif; }
+  .hiw-tab.active { background:var(--orange); color:#fff; }
+  .hiw-content { display:none; }
+  .hiw-content.active { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+  .steps { display:flex; flex-direction:column; gap:28px; }
+  .step { display:flex; gap:18px; align-items:flex-start; }
+  .step-num { width:40px; height:40px; border-radius:50%; background:var(--orange-dim); border:1.5px solid rgba(255,107,43,0.4); color:var(--orange); font-family:'Syne',sans-serif; font-weight:800; font-size:0.9rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .hiw-content.sell .step-num { background:var(--green-dim); border-color:rgba(45,216,122,0.4); color:var(--green); }
+  .hiw-content.fix .step-num { background:rgba(255,209,102,0.1); border-color:rgba(255,209,102,0.3); color:var(--yellow); }
+  .step-body h4 { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
+  .step-body p { color:var(--muted); font-size:0.875rem; margin-top:4px; line-height:1.6; }
+  .hiw-visual { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:32px; min-height:340px; display:flex; flex-direction:column; gap:12px; justify-content:center; }
+  .example-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; }
+  .example-card h5 { font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; }
+  .example-card p { color:var(--muted); font-size:0.78rem; margin-top:4px; }
+  .example-tag { display:inline-block; padding:3px 10px; border-radius:100px; font-size:0.68rem; font-weight:700; margin-top:8px; text-transform:uppercase; }
+  .tag-pending { background:#FFD16622; color:var(--yellow); }
+  .tag-inprog { background:#4A90E222; color:#6DB3FF; }
+  .tag-done { background:var(--green-dim); color:var(--green); }
+
+  /* ── ARTISANS ── */
+  #artisans { background:var(--bg2); }
+  .artisans-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-top:40px; }
+  .artisan-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:24px; cursor:pointer; transition:all 0.25s; }
+  .artisan-card:hover { transform:translateY(-3px); border-color:#333; }
+  .artisan-avatar { width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:14px; }
+  .artisan-name { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; }
+  .artisan-role { color:var(--muted); font-size:0.8rem; margin-top:2px; }
+  .artisan-rating { display:flex; align-items:center; gap:4px; margin-top:10px; }
+  .stars { color:var(--yellow); font-size:0.85rem; }
+  .rating-num { color:var(--light); font-size:0.8rem; font-weight:600; }
+  .artisan-stats { display:flex; gap:16px; margin-top:14px; }
+  .a-stat { }
+  .a-stat-val { font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; }
+  .a-stat-lab { color:var(--muted); font-size:0.7rem; }
+  .book-btn { width:100%; margin-top:16px; background:var(--green-dim); color:var(--green); border:1px solid rgba(45,216,122,0.3); border-radius:100px; padding:8px; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+  .book-btn:hover { background:var(--green); color:#000; }
+
+  /* ── FORMS ── */
+  #getadeal, #sellanitem, #bookanartisan { background:var(--bg); }
+  .form-container { max-width:640px; margin:48px auto 0; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:40px; }
+  .form-title { font-family:'Syne',sans-serif; font-weight:800; font-size:1.5rem; }
+  .form-sub { color:var(--muted); font-size:0.875rem; margin-top:6px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+  .form-group { display:flex; flex-direction:column; gap:6px; }
+  .form-group.full { grid-column:1/-1; }
+  label { font-size:0.8rem; font-weight:600; color:var(--light); }
+  input, select, textarea {
+    background:var(--bg3); border:1.5px solid var(--border); border-radius:var(--radius-sm);
+    color:var(--text); padding:12px 14px; font-family:'DM Sans',sans-serif; font-size:0.875rem;
+    transition:border-color 0.2s; outline:none; width:100%;
+  }
+  input:focus, select:focus, textarea:focus { border-color:var(--orange); }
+  textarea { resize:vertical; min-height:90px; }
+  select option { background:#1E1E1E; }
+  .form-submit { width:100%; margin-top:24px; background:var(--orange); color:#fff; border:none; padding:14px; border-radius:100px; font-family:'DM Sans',sans-serif; font-weight:700; font-size:1rem; cursor:pointer; transition:all 0.25s; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .form-submit:hover { background:#ff8550; transform:translateY(-2px); box-shadow:0 12px 30px rgba(255,107,43,0.3); }
+  .form-submit.green { background:var(--green); color:#000; }
+  .form-submit.green:hover { background:#4FE890; box-shadow:0 12px 30px rgba(45,216,122,0.25); }
+  .form-submit.yellow { background:var(--yellow); color:#000; }
+  .form-submit.yellow:hover { background:#ffe08a; }
+  .success-msg { display:none; text-align:center; padding:40px 20px; }
+  .success-icon { font-size:3rem; margin-bottom:12px; }
+  .success-msg h3 { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; }
+  .success-msg p { color:var(--muted); margin-top:8px; font-size:0.9rem; }
+  .request-id { background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 20px; margin-top:16px; font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; color:var(--orange); }
+
+  /* ── INVEST SECTION ── */
+  #invest { background: var(--bg2); position:relative; overflow:hidden; }
+  #invest::before { content:''; position:absolute; top:-100px; right:-100px; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle, rgba(255,107,43,0.06) 0%, transparent 70%); pointer-events:none; }
+  .invest-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; margin-top:56px; }
+  .invest-metrics { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .metric-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:24px; }
+  .metric-val { font-family:'Syne',sans-serif; font-weight:800; font-size:1.8rem; color:var(--orange); }
+  .metric-label { color:var(--muted); font-size:0.78rem; margin-top:4px; }
+  .opportunity-list { display:flex; flex-direction:column; gap:16px; margin-top:28px; }
+  .opp-item { display:flex; gap:14px; align-items:flex-start; }
+  .opp-dot { width:8px; height:8px; border-radius:50%; background:var(--orange); margin-top:7px; flex-shrink:0; }
+  .opp-text h4 { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; }
+  .opp-text p { color:var(--muted); font-size:0.83rem; margin-top:3px; line-height:1.6; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background:var(--bg); }
+  .testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  .testi-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:28px; }
+  .testi-stars { color:var(--yellow); font-size:0.9rem; margin-bottom:14px; }
+  .testi-text { color:var(--light); font-size:0.9rem; line-height:1.7; font-style:italic; }
+  .testi-author { margin-top:20px; display:flex; align-items:center; gap:10px; }
+  .testi-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+  .testi-name { font-family:'Syne',sans-serif; font-weight:700; font-size:0.85rem; }
+  .testi-role { color:var(--muted); font-size:0.75rem; }
+
+  /* ── FOOTER ── */
+  footer { background:var(--bg2); border-top:1px solid var(--border); padding:60px 5% 40px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; }
+  .footer-brand .logo { font-size:1.4rem; }
+  .footer-brand p { color:var(--muted); font-size:0.85rem; margin-top:12px; max-width:260px; line-height:1.7; }
+  .footer-col h5 { font-family:'Syne',sans-serif; font-weight:700; font-size:0.85rem; margin-bottom:14px; }
+  .footer-col a { display:block; color:var(--muted); font-size:0.82rem; text-decoration:none; margin-bottom:8px; transition:color 0.2s; }
+  .footer-col a:hover { color:var(--text); }
+  .footer-bottom { border-top:1px solid var(--border); margin-top:40px; padding-top:24px; display:flex; justify-content:space-between; align-items:center; }
+  .footer-bottom p { color:var(--muted); font-size:0.78rem; }
+  .social-links { display:flex; gap:12px; }
+  .social-link { width:34px; height:34px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:0.9rem; text-decoration:none; transition:all 0.2s; }
+  .social-link:hover { background:var(--orange); border-color:var(--orange); transform:translateY(-2px); }
+
+  /* ── MODAL ── */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:36px; max-width:480px; width:90%; position:relative; animation: modalIn 0.25s ease; }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+  .modal-close { position:absolute; top:16px; right:16px; background:var(--bg3); border:1px solid var(--border); color:var(--muted); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .modal-close:hover { color:var(--text); background:var(--border); }
+  .modal-img { font-size:5rem; text-align:center; margin-bottom:16px; }
+  .modal-name { font-family:'Syne',sans-serif; font-weight:800; font-size:1.3rem; }
+  .modal-price { font-family:'Syne',sans-serif; font-weight:800; font-size:1.6rem; color:var(--orange); margin-top:8px; }
+  .modal-desc { color:var(--light); font-size:0.875rem; line-height:1.7; margin-top:12px; }
+  .modal-specs { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+  .spec-item { background:var(--bg3); border-radius:var(--radius-sm); padding:12px; }
+  .spec-key { color:var(--muted); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px; }
+  .spec-val { font-weight:600; font-size:0.875rem; margin-top:3px; }
+  .modal-actions { display:flex; gap:10px; margin-top:24px; }
+  .modal-actions button { flex:1; padding:12px; border-radius:100px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.875rem; cursor:pointer; transition:all 0.2s; border:none; }
+  .modal-btn-primary { background:var(--orange); color:#fff; }
+  .modal-btn-primary:hover { background:#ff8550; }
+  .modal-btn-secondary { background:var(--bg3); color:var(--text); border:1.5px solid var(--border) !important; }
+  .modal-btn-secondary:hover { border-color:var(--orange) !important; color:var(--orange); }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float { position:fixed; bottom:28px; right:28px; z-index:99; background:#25D366; color:#fff; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.6rem; text-decoration:none; box-shadow:0 4px 20px rgba(37,211,102,0.4); transition:all 0.25s; }
+  .wa-float:hover { transform:scale(1.1); box-shadow:0 8px 30px rgba(37,211,102,0.5); }
+
+  /* ── CONDITION SELECTOR ── */
+  .condition-select { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .cond-btn { background:var(--bg3); border:1.5px solid var(--border); color:var(--muted); padding:10px; border-radius:var(--radius-sm); font-size:0.8rem; font-weight:600; cursor:pointer; text-align:center; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+  .cond-btn.selected { border-color:var(--green); color:var(--green); background:var(--green-dim); }
+
+  @media(max-width:900px) {
+    .verticals { grid-template-columns:1fr; }
+    .hiw-content.active { grid-template-columns:1fr; }
+    .invest-grid { grid-template-columns:1fr; }
+    .testi-grid { grid-template-columns:1fr; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    .nav-links { display:none; }
+    .form-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Padi<span>Markit</span></div>
+  <div class="nav-links">
+    <a href="#marketplace">Browse</a>
+    <a href="#howitworks">How it Works</a>
+    <a href="#artisans">Artisans</a>
+    <a href="#invest">Investors</a>
+  </div>
+  <button class="nav-cta" onclick="scrollTo('#getadeal')">Get a Deal</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-tag">🌍 Launching across Africa — Starting in Lagos</div>
+  <h1>Africa trades.<br>Africa trusts.<br><span class="accent">PadiMarkit.</span></h1>
+  <p class="hero-sub">From Lagos to Nairobi, Accra to Johannesburg — PadiMarkit is the trusted middleman for sourcing goods, selling items, and booking verified artisans across the continent.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="scrollTo('#getadeal')">🛒 Get a Deal</button>
+    <button class="btn-primary" style="background:var(--green);color:#000;" onclick="scrollTo('#sellanitem')">💰 Sell an Item</button>
+    <button class="btn-outline" onclick="scrollTo('#bookanartisan')">🔧 Book Artisan</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num" data-target="8400">0</div><div class="stat-label">Transactions completed</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="1200">0</div><div class="stat-label">Verified artisans</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="98" data-suffix="%">0</div><div class="stat-label">Satisfaction rate</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="6" data-suffix=" countries">0</div><div class="stat-label">Active markets</div></div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="icon">🇳🇬</span> Nigeria</div>
+  <div class="trust-item"><span class="icon">🇬🇭</span> Ghana</div>
+  <div class="trust-item"><span class="icon">🇰🇪</span> Kenya</div>
+  <div class="trust-item"><span class="icon">🇿🇦</span> South Africa</div>
+  <div class="trust-item"><span class="icon">🇨🇮</span> Côte d'Ivoire</div>
+  <div class="trust-item"><span class="icon">🇹🇿</span> Tanzania</div>
+  <div class="trust-item"><span class="icon">✅</span> Verified Suppliers</div>
+  <div class="trust-item"><span class="icon">🔍</span> Market Price Intelligence</div>
+  <div class="trust-item"><span class="icon">🛡️</span> Fraud Protection</div>
+  <div class="trust-item"><span class="icon">⚡</span> Same-Day Response</div>
+  <div class="trust-item"><span class="icon">📦</span> Delivery Coordination</div>
+  <div class="trust-item"><span class="icon">⭐</span> Rated & Reviewed Network</div>
+  <div class="trust-item"><span class="icon">↩️</span> Dispute Resolution</div>
+</div>
+
+<!-- THREE VERTICALS -->
+<section id="verticals" style="background:var(--bg2);">
+  <div class="section-tag">What We Do</div>
+  <h2>Three ways PadiMarkit<br>works for Africa</h2>
+  <div class="verticals">
+    <div class="vertical-card active" onclick="setVertical(this,0)">
+      <div class="v-icon">🛒</div>
+      <div class="v-title">Deals & Procurement</div>
+      <div class="v-desc">Need goods at fair prices without the market run stress? Whether you're in Lagos, Accra, or Nairobi — tell us what you want and we source it, verified.</div>
+      <button class="v-cta" onclick="event.stopPropagation();scrollTo('#getadeal')">Request a Deal →</button>
+    </div>
+    <div class="vertical-card" onclick="setVertical(this,1)">
+      <div class="v-icon">💰</div>
+      <div class="v-title">Sell & Flip</div>
+      <div class="v-desc">Want quick cash from a phone, laptop, or appliance? We evaluate, list, and sell your item across our pan-African buyer network — honestly priced.</div>
+      <button class="v-cta" onclick="event.stopPropagation();scrollTo('#sellanitem')">List Your Item →</button>
+    </div>
+    <div class="vertical-card" onclick="setVertical(this,2)">
+      <div class="v-icon">🔧</div>
+      <div class="v-title">Fix & Services</div>
+      <div class="v-desc">Electricians, plumbers, and carpenters that actually show up — vetted, rated, and accountable — from Johannesburg to Abuja to Accra.</div>
+      <button class="v-cta" onclick="event.stopPropagation();scrollTo('#bookanartisan')">Book Now →</button>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETPLACE -->
+<section id="marketplace">
+  <div class="section-tag orange">Live Listings</div>
+  <h2>Items available across Africa</h2>
+  <p class="sub">Real products. Verified condition. PadiMarkit-checked prices — from Lagos to Nairobi.</p>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProducts('all',this)">All Items</button>
+    <button class="filter-btn" onclick="filterProducts('electronics',this)">📱 Electronics</button>
+    <button class="filter-btn" onclick="filterProducts('footwear',this)">👟 Footwear</button>
+    <button class="filter-btn" onclick="filterProducts('fmcg',this)">🛒 FMCG & Staples</button>
+    <button class="filter-btn" onclick="filterProducts('appliances',this)">🏠 Appliances</button>
+    <button class="filter-btn" onclick="filterProducts('baby',this)">👶 Baby & Hygiene</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="howitworks">
+  <div class="section-tag">How It Works</div>
+  <h2>Simple. Fast. Trusted.<br>Anywhere in Africa.</h2>
+  <div class="hiw-tabs">
+    <button class="hiw-tab active" onclick="setHiwTab('deal',this)">Get a Deal</button>
+    <button class="hiw-tab" onclick="setHiwTab('sell',this)">Sell an Item</button>
+    <button class="hiw-tab" onclick="setHiwTab('fix',this)">Book Artisan</button>
+  </div>
+
+  <div class="hiw-content active" id="hiw-deal">
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-body"><h4>Tell us what you need</h4><p>Fill a quick form — product, quantity, budget, delivery area. Takes 90 seconds.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-body"><h4>We check the market</h4><p>Our field officers verify live prices at key hubs — Balogun and Mile 12 in Lagos, Makola in Accra, Gikomba in Nairobi, and beyond.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-body"><h4>You get a verified quote</h4><p>We send you the best price we found, plus delivery options. No hidden fees.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-body"><h4>Pay and receive</h4><p>Confirm, pay securely, and get your goods delivered — with a receipt and request ID.</p></div></div>
+    </div>
+    <div class="hiw-visual">
+      <p style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Sample Deal Request</p>
+      <div class="example-card">
+        <h5>📦 Pampers Active Baby — Size 4, 3 packs</h5>
+        <p>Budget: ₦9,000–₦12,000 · Ikeja, Lagos · One-off</p>
+        <span class="example-tag tag-done">✓ Fulfilled — ₦10,500 delivered</span>
+      </div>
+      <div class="example-card">
+        <h5>☕ Finest Grade Arabica Coffee — 20kg</h5>
+        <p>Budget: KSh 18,000–22,000 · Westlands, Nairobi · Recurring monthly</p>
+        <span class="example-tag tag-inprog">⏳ In Progress — Quote sent</span>
+      </div>
+      <div class="example-card">
+        <h5>🌾 Basmati Rice 50kg × 10 bags</h5>
+        <p>Budget: GH₵ 4,200 · Airport Residential, Accra · Bulk supply</p>
+        <span class="example-tag tag-pending">📋 New — Being reviewed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hiw-content sell" id="hiw-sell">
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-body"><h4>Submit your item</h4><p>Tell us what you're selling — brand, model, condition. Send photos via the form or WhatsApp.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-body"><h4>We evaluate it</h4><p>Our team reviews and gives you an honest valuation. No lowballing, no guesswork.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-body"><h4>We list and sell it</h4><p>Your item goes live on PadiMarkit's verified listings. We handle the buyers.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-body"><h4>You get paid</h4><p>Once sold, your payout lands within 24 hours. Consignment or direct-buy — your choice.</p></div></div>
+    </div>
+    <div class="hiw-visual">
+      <p style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Active Sell Leads</p>
+      <div class="example-card">
+        <h5>📱 Samsung Galaxy S23 — 256GB Phantom Black</h5>
+        <p>Condition: Good · Lightly scratched back · Nairobi, Kenya</p>
+        <span class="example-tag tag-done">✓ Sold — KSh 72,000 | Payout sent</span>
+      </div>
+      <div class="example-card">
+        <h5>👟 Nike Air Max 270 — UK 10, barely used</h5>
+        <p>Condition: Like New · Box included · Lagos, Nigeria</p>
+        <span class="example-tag tag-inprog">⏳ Listed — Buyer interest received</span>
+      </div>
+      <div class="example-card">
+        <h5>💻 MacBook Air M1 — 8GB/256GB, Space Grey</h5>
+        <p>Condition: Excellent · Charger included · Accra, Ghana</p>
+        <span class="example-tag tag-pending">📋 Awaiting Evaluation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hiw-content fix" id="hiw-fix">
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-body"><h4>Describe the job</h4><p>Tell us what needs fixing — type of work, urgency, location, time window. Quick form.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-body"><h4>We match you</h4><p>We find the best-rated artisan in your area based on skill, proximity, and availability.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-body"><h4>Confirm & book</h4><p>We send artisan details, estimated price range, and appointment window. Small booking fee applies.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-body"><h4>Job done. Rate them.</h4><p>Artisan shows up, does the work, you rate. Every job builds the trust network.</p></div></div>
+    </div>
+    <div class="hiw-visual">
+      <p style="font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Recent Artisan Jobs</p>
+      <div class="example-card">
+        <h5>⚡ Electrical fault — tripping circuit breaker</h5>
+        <p>Agungi, Lagos · Emmanuel (Electrician) · Urgent</p>
+        <span class="example-tag tag-done">✓ Completed · Rated ⭐⭐⭐⭐⭐</span>
+      </div>
+      <div class="example-card">
+        <h5>❄️ AC not cooling — Samsung 2HP Split</h5>
+        <p>Kilimani, Nairobi · James (AC Tech) · Tomorrow</p>
+        <span class="example-tag tag-inprog">⏳ Confirmed — 10am appointment</span>
+      </div>
+      <div class="example-card">
+        <h5>🚰 Blocked drain + leaking pipe</h5>
+        <p>East Legon, Accra · Plumber needed · Today</p>
+        <span class="example-tag tag-pending">📋 Matching artisan...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTISANS -->
+<section id="artisans">
+  <div class="section-tag yellow">Fix & Services</div>
+  <h2>Verified artisans across Africa</h2>
+  <p class="sub">Every artisan is vetted, rated, and accountable — from Lagos to Nairobi to Johannesburg. No more no-shows. No more overcharging.</p>
+  <div class="artisans-grid" id="artisansGrid"></div>
+</section>
+
+<!-- GET A DEAL FORM -->
+<section id="getadeal">
+  <div style="text-align:center;">
+    <div class="section-tag orange">Deals & Procurement</div>
+    <h2>Get a Deal</h2>
+    <p class="sub" style="margin:0 auto;">Tell us what you need and we'll source it at a verified fair price.</p>
+  </div>
+  <div class="form-container">
+    <div id="dealForm">
+      <div class="form-title">🛒 Request a Deal</div>
+      <div class="form-sub">Typical response time: under 2 hours during business hours</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>What products do you need?</label>
+          <input type="text" id="dealProducts" placeholder="e.g. Pampers Size 4 × 5 packs, Indomie carton × 2" />
+        </div>
+        <div class="form-group">
+          <label>Budget range</label>
+          <select id="dealBudget">
+            <option value="">Select range</option>
+            <option>Under ₦10,000</option>
+            <option>₦10,000 – ₦50,000</option>
+            <option>₦50,000 – ₦150,000</option>
+            <option>₦150,000 – ₦500,000</option>
+            <option>Above ₦500,000</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>How often?</label>
+          <select id="dealFreq">
+            <option>One-off purchase</option>
+            <option>Weekly recurring</option>
+            <option>Monthly recurring</option>
+            <option>Ongoing supply contract</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <select id="dealCountry">
+            <option>Nigeria 🇳🇬</option>
+            <option>Ghana 🇬🇭</option>
+            <option>Kenya 🇰🇪</option>
+            <option>South Africa 🇿🇦</option>
+            <option>Senegal 🇸🇳</option>
+            <option>Tanzania 🇹🇿</option>
+            <option>Other (we're expanding!)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Delivery location (city / area)</label>
+          <input type="text" id="dealLocation" placeholder="e.g. Ikeja, Westlands, East Legon" />
+        </div>
+        <div class="form-group">
+          <label>Preferred contact</label>
+          <select id="dealContact">
+            <option>WhatsApp</option>
+            <option>Phone call</option>
+            <option>Email</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your phone / WhatsApp</label>
+          <input type="text" id="dealPhone" placeholder="+234 800 000 0000" />
+        </div>
+        <div class="form-group full">
+          <label>Any brand preferences or quality notes? (optional)</label>
+          <textarea id="dealNotes" placeholder="e.g. Must be Dangote rice, no foreign brands. Quality grade A only."></textarea>
+        </div>
+      </div>
+      <button class="form-submit" onclick="submitDeal()">Submit Deal Request →</button>
+    </div>
+    <div class="success-msg" id="dealSuccess">
+      <div class="success-icon">✅</div>
+      <h3>Deal Request Received!</h3>
+      <p>Our team is on it. You'll get a verified quote via WhatsApp within 2 hours.</p>
+      <div class="request-id" id="dealReqId">Request ID: PM-DEAL-XXXX</div>
+      <p style="margin-top:16px;color:var(--muted);font-size:0.8rem;">Save this ID to track your request</p>
+    </div>
+  </div>
+</section>
+
+<!-- SELL AN ITEM FORM -->
+<section id="sellanitem" style="background:var(--bg2);">
+  <div style="text-align:center;">
+    <div class="section-tag">Sell & Flip</div>
+    <h2>Sell an Item</h2>
+    <p class="sub" style="margin:0 auto;">Fast cash, no stress. We handle the listing, buyers, and payout.</p>
+  </div>
+  <div class="form-container">
+    <div id="sellForm">
+      <div class="form-title">💰 List Your Item</div>
+      <div class="form-sub">Electronics, phones, appliances, shoes, baby gear — we sell it all</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Item category</label>
+          <select id="sellCategory">
+            <option>Smartphones & Tablets</option>
+            <option>Laptops & Computers</option>
+            <option>TVs & Sound Systems</option>
+            <option>Footwear (Shoes / Sneakers)</option>
+            <option>Small Appliances</option>
+            <option>Baby Gear</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Brand & Model</label>
+          <input type="text" id="sellBrand" placeholder="e.g. iPhone 13 Pro 256GB" />
+        </div>
+        <div class="form-group full">
+          <label>Item condition</label>
+          <div class="condition-select">
+            <div class="cond-btn" onclick="selectCondition(this,'Like New')">Like New</div>
+            <div class="cond-btn" onclick="selectCondition(this,'Good')">Good</div>
+            <div class="cond-btn" onclick="selectCondition(this,'Fair')">Fair</div>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Describe the item honestly</label>
+          <textarea id="sellDesc" placeholder="Any scratches? Original box included? Accessories? Be honest — it builds buyer trust."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Your desired price (₦)</label>
+          <input type="text" id="sellPrice" placeholder="e.g. 195,000" />
+        </div>
+        <div class="form-group">
+          <label>Minimum acceptable (₦)</label>
+          <input type="text" id="sellMin" placeholder="e.g. 180,000" />
+        </div>
+        <div class="form-group">
+          <label>Sale preference</label>
+          <select id="sellType">
+            <option>Consignment (we sell, you get paid)</option>
+            <option>Direct buy (we buy it from you today)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your location</label>
+          <input type="text" id="sellLocation" placeholder="e.g. Yaba, Lagos" />
+        </div>
+        <div class="form-group full">
+          <label>Your WhatsApp number</label>
+          <input type="text" id="sellPhone" placeholder="+234 800 000 0000" />
+        </div>
+      </div>
+      <button class="form-submit green" onclick="submitSell()">Submit Sell Lead →</button>
+    </div>
+    <div class="success-msg" id="sellSuccess">
+      <div class="success-icon">💰</div>
+      <h3>Sell Lead Received!</h3>
+      <p>We'll evaluate your item and send you an offer within 3 hours. Check your WhatsApp.</p>
+      <div class="request-id" id="sellReqId">Request ID: PM-SELL-XXXX</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK AN ARTISAN FORM -->
+<section id="bookanartisan">
+  <div style="text-align:center;">
+    <div class="section-tag yellow">Fix & Services</div>
+    <h2>Book an Artisan</h2>
+    <p class="sub" style="margin:0 auto;">Vetted professionals. Fixed appointments. Zero no-shows.</p>
+  </div>
+  <div class="form-container">
+    <div id="artisanForm">
+      <div class="form-title">🔧 Book a Job</div>
+      <div class="form-sub">Electricians, plumbers, AC techs, carpenters, tilers, and more</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Type of work</label>
+          <select id="artisanType">
+            <option>Electrical work</option>
+            <option>Plumbing</option>
+            <option>AC / Fridge repair</option>
+            <option>Carpentry & Furniture</option>
+            <option>Tiling / POP / Screeding</option>
+            <option>Painting</option>
+            <option>Generator repair</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Urgency</label>
+          <select id="artisanUrgency">
+            <option>Today (emergency)</option>
+            <option>Tomorrow</option>
+            <option>Within 3 days</option>
+            <option>This week</option>
+            <option>Flexible</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Describe the job</label>
+          <textarea id="artisanDesc" placeholder="e.g. Circuit breaker keeps tripping in the kitchen. Also need 2 new sockets installed in living room."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" id="artisanLocation" placeholder="e.g. Ajah, Lagos" />
+        </div>
+        <div class="form-group">
+          <label>Preferred time window</label>
+          <select id="artisanTime">
+            <option>Morning (8am–12pm)</option>
+            <option>Afternoon (12pm–4pm)</option>
+            <option>Evening (4pm–7pm)</option>
+            <option>Any time</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Budget range (optional)</label>
+          <select id="artisanBudget">
+            <option value="">Not sure yet</option>
+            <option>Under ₦10,000</option>
+            <option>₦10,000 – ₦30,000</option>
+            <option>₦30,000 – ₦80,000</option>
+            <option>Above ₦80,000</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Contact method</label>
+          <select id="artisanContact">
+            <option>WhatsApp</option>
+            <option>Phone call</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Your WhatsApp / Phone</label>
+          <input type="text" id="artisanPhone" placeholder="+234 800 000 0000" />
+        </div>
+      </div>
+      <button class="form-submit yellow" onclick="submitArtisan()">Book Artisan →</button>
+    </div>
+    <div class="success-msg" id="artisanSuccess">
+      <div class="success-icon">🔧</div>
+      <h3>Job Request Confirmed!</h3>
+      <p>We're matching you with the best-rated artisan for this job. Expect a WhatsApp message within 60 minutes.</p>
+      <div class="request-id" id="artisanReqId">Request ID: PM-JOB-XXXX</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTOR SECTION -->
+<section id="invest">
+  <div class="section-tag">For Investors</div>
+  <h2>The biggest untapped<br>trade opportunity on earth</h2>
+  <div class="invest-grid">
+    <div>
+      <p class="sub" style="max-width:100%;">Africa's informal commerce sector processes over $1 trillion annually across 54 countries. Fraud, price opacity, and zero trust infrastructure are the defining problems from Lagos to Nairobi. PadiMarkit owns the trust layer — and that's the most defensible position on the continent.</p>
+      <div class="opportunity-list">
+        <div class="opp-item"><div class="opp-dot"></div><div class="opp-text"><h4>$1T+ informal trade market across Africa</h4><p>Balogun (Lagos), Makola (Accra), Gikomba (Nairobi), Warwick (Durban) — billions move daily with zero digital trust infrastructure.</p></div></div>
+        <div class="opp-item"><div class="opp-dot"></div><div class="opp-text"><h4>Three revenue streams from day one</h4><p>Deal spreads (3–10%), consignment commissions (10–20%), and artisan booking fees stack from the first transaction — in every city.</p></div></div>
+        <div class="opp-item"><div class="opp-dot"></div><div class="opp-text"><h4>Offline-first moat. Digital intelligence overlay.</h4><p>Field officer networks, market relationships, and verified supplier databases in each city take years to build. This cannot be replicated from a laptop in San Francisco.</p></div></div>
+        <div class="opp-item"><div class="opp-dot"></div><div class="opp-text"><h4>Expansion path: Lagos → Nigeria → West Africa → Pan-Africa</h4><p>The model ports directly to Accra, Abidjan, Nairobi, Dar es Salaam, and Johannesburg once unit economics are proven in Lagos.</p></div></div>
+      </div>
+      <button class="btn-primary" style="margin-top:36px;" onclick="openInvestorModal()">📩 Request Investor Deck</button>
+    </div>
+    <div class="invest-metrics">
+      <div class="metric-card"><div class="metric-val">$1T+</div><div class="metric-label">Annual informal trade across Africa</div></div>
+      <div class="metric-card"><div class="metric-val">1.4B+</div><div class="metric-label">People across 54 African countries</div></div>
+      <div class="metric-card"><div class="metric-val">3–20%</div><div class="metric-label">Target margin per transaction</div></div>
+      <div class="metric-card"><div class="metric-val">6 Markets</div><div class="metric-label">Active in Year 1 expansion plan</div></div>
+      <div class="metric-card" style="grid-column:1/-1;background:var(--orange-dim);border-color:rgba(255,107,43,0.3);">
+        <div class="metric-val" style="color:var(--orange);">Under ₦300K</div>
+        <div class="metric-label">MVP launch budget — lean, validated, and built to scale continent-wide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-tag">Social Proof</div>
+  <h2>Real users. Real results.</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I needed 10 cartons of cooking oil and 5 bags of rice urgently for my restaurant. PadiMarkit found me a price thousands below what I was paying and delivered same day. I don't do market runs anymore."</p>
+      <div class="testi-author"><div class="testi-avatar" style="background:#FF6B2B22;">👩</div><div><div class="testi-name">Chioma A.</div><div class="testi-role">Restaurant Owner · Lagos, Nigeria 🇳🇬</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Sold my MacBook in 48 hours through PadiMarkit Accra. They gave me a fair valuation, handled the buyer completely, and sent my payout the same day. I've already sent four friends to them."</p>
+      <div class="testi-author"><div class="testi-avatar" style="background:#2DD87A22;">👨</div><div><div class="testi-name">Kofi M.</div><div class="testi-role">Software Developer · Accra, Ghana 🇬🇭</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The plumber arrived exactly on time, fixed the issue, and charged exactly what was quoted. I manage properties in Nairobi and PadiMarkit is now our go-to for all artisan work. Game changer."</p>
+      <div class="testi-author"><div class="testi-avatar" style="background:#FFD16622;">👩</div><div><div class="testi-name">Wanjiru K.</div><div class="testi-role">Property Manager · Nairobi, Kenya 🇰🇪</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Padi<span>Markit</span></div>
+      <p>Africa's most trusted platform for everyday trade. Goods. Sales. Services. Verified across the continent.</p><p style="margin-top:10px;font-size:0.78rem;color:#555;">🇳🇬 Nigeria &amp;nbsp;·&amp;nbsp; 🇬🇭 Ghana &amp;nbsp;·&amp;nbsp; 🇰🇪 Kenya &amp;nbsp;·&amp;nbsp; 🇿🇦 South Africa &amp;nbsp;·&amp;nbsp; 🇸🇳 Senegal &amp;nbsp;·&amp;nbsp; 🇹🇿 Tanzania</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <a href="#getadeal">Get a Deal</a>
+      <a href="#sellanitem">Sell an Item</a>
+      <a href="#bookanartisan">Book Artisan</a>
+      <a href="#marketplace">Browse Listings</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#invest">Investors</a>
+      <a href="#howitworks">How It Works</a>
+      <a href="#artisans">Our Artisans</a>
+      <a href="#">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <a href="#">WhatsApp Us</a>
+      <a href="#">hello@padimarkit.com</a>
+      <a href="#">Lagos, Nigeria</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 PadiMarkit / TradeGride Africa. All rights reserved. · Africa's Most Trusted Trade Platform</p>
+    <div class="social-links">
+      <a class="social-link" href="#">📸</a>
+      <a class="social-link" href="#">🐦</a>
+      <a class="social-link" href="#">📱</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="#" title="Chat on WhatsApp">💬</a>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeProductModal()">×</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div class="modal-name" id="modalName"></div>
+      <span id="modalBadge" class="product-badge"></span>
+    </div>
+    <div class="modal-price" id="modalPrice"></div>
+    <p class="modal-desc" id="modalDesc"></p>
+    <div class="modal-specs" id="modalSpecs"></div>
+    <div class="modal-actions">
+      <button class="modal-btn-primary" onclick="requestDeal()">Request This Item</button>
+      <button class="modal-btn-secondary" onclick="closeProductModal()">Back to Browse</button>
+    </div>
+  </div>
+</div>
+
+<!-- INVESTOR MODAL -->
+<div class="modal-overlay" id="investorModal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('investorModal').classList.remove('open')">×</button>
+    <div class="modal-img">📊</div>
+    <div class="modal-name">Request Investor Deck</div>
+    <p class="modal-desc" style="margin-top:8px;">Leave your details and we'll send the full PadiMarkit investor deck with financials, market analysis, and the 90-day roadmap.</p>
+    <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px;">
+      <input type="text" placeholder="Your name" />
+      <input type="text" placeholder="Email or WhatsApp" />
+      <input type="text" placeholder="Fund / Company (optional)" />
+    </div>
+    <div class="modal-actions" style="margin-top:20px;">
+      <button class="modal-btn-primary" onclick="submitInvestorRequest()">Send Deck Request</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PRODUCTS DATA ────────────────────────────────────────────────────────────
+const products = [
+  { id:1, cat:'electronics', emoji:'📱', name:'iPhone 13 — 128GB Midnight', meta:'Verified condition · PadiMarkit Checked', price:'₦185,000', original:'₦210,000', badge:'used', badgeText:'Tested', desc:'Unlocked iPhone 13, clean IMEI, battery at 91%. Minor scuff on rear glass, screen is pristine. Comes with original charger.', specs:[{k:'Storage',v:'128GB'},{k:'Battery',v:'91%'},{k:'Network',v:'Unlocked'},{k:'Warranty',v:'48h guarantee'}] },
+  { id:2, cat:'electronics', emoji:'💻', name:'HP Pavilion 15 — i5, 8GB, 512GB SSD', meta:'Verified condition · Office-ready', price:'₦275,000', original:'₦320,000', badge:'used', badgeText:'Tested', desc:'Perfect for work and study. Windows 11 Pro installed, all ports working, battery holds 4+ hours. Minor keyboard wear.', specs:[{k:'Processor',v:'i5 11th Gen'},{k:'RAM',v:'8GB DDR4'},{k:'Storage',v:'512GB SSD'},{k:'Battery',v:'4–5 hrs'}] },
+  { id:3, cat:'electronics', emoji:'📺', name:'Samsung 43" Smart TV — Full HD', meta:'Grade A condition · Smart TV with Netflix', price:'₦195,000', original:'₦240,000', badge:'used', badgeText:'Grade A', desc:'Samsung UA43T5300. Full HD, Smart TV with Netflix, YouTube, Prime. Remote and stand included. Tested for 48 hours.', specs:[{k:'Size',v:'43 inches'},{k:'Resolution',v:'1080p Full HD'},{k:'Type',v:'Smart TV'},{k:'Year',v:'2021'}] },
+  { id:4, cat:'footwear', emoji:'👟', name:'Nike Air Max 270 — UK 10, White/Black', meta:'Like New · Box included', price:'₦42,000', original:'₦68,000', badge:'used', badgeText:'Like New', desc:'Worn twice. No sole wear. Box, tissue, and extra laces included. Bought from Nike Lagos.', specs:[{k:'Size',v:'UK 10 / US 11'},{k:'Condition',v:'Like New'},{k:'Box',v:'Original included'},{k:'Colour',v:'White/Black'}] },
+  { id:5, cat:'footwear', emoji:'👞', name:'Adidas Stan Smith — UK 9, All White', meta:'Verified Original · Barely used', price:'₦32,000', original:'₦52,000', badge:'used', badgeText:'Verified', desc:'Original Adidas Stan Smith from Adidas Lagos. Worn three times. Clean toe box, soles 95% clean.', specs:[{k:'Size',v:'UK 9'},{k:'Condition',v:'Very Good'},{k:'Authenticity',v:'Verified Original'},{k:'Colour',v:'All White'}] },
+  { id:6, cat:'footwear', emoji:'🏀', name:'Jordan 1 Mid — UK 9.5, Chicago', meta:'Authenticated · Hot item', price:'₦68,000', badge:'used', badgeText:'Hot 🔥', desc:'Air Jordan 1 Mid in Chicago colorway. Authenticated. Slight heel drag, insoles fresh. Selling fast.', specs:[{k:'Size',v:'UK 9.5'},{k:'Condition',v:'Good'},{k:'Auth',v:'Authenticated'},{k:'Colour',v:'Chicago Red'}] },
+  { id:7, cat:'fmcg', emoji:'🌾', name:'Dangote Rice — 50kg Bag (Grade A)', meta:'Market verified price · Direct from source', price:'₦42,000', badge:'deal', badgeText:'Best Price', desc:'Sourced directly from verified Balogun market supplier. Weighed and sealed. Delivery across Lagos.', specs:[{k:'Weight',v:'50kg'},{k:'Grade',v:'Grade A Long Grain'},{k:'Source',v:'Balogun Market'},{k:'Min Order',v:'1 bag'}] },
+  { id:8, cat:'fmcg', emoji:'🧴', name:'Pampers Active Baby — Size 4 (52 pcs)', meta:'Verified genuine · Best market rate', price:'₦11,500', badge:'deal', badgeText:'Deal', desc:'Genuine Pampers, not resealed. Verified from authorised distributor. Bulk orders get better pricing.', specs:[{k:'Count',v:'52 pieces'},{k:'Size',v:'Size 4 (9–14kg)'},{k:'Authenticity',v:'Authorised source'},{k:'Bulk',v:'Discount avail'}] },
+  { id:9, cat:'fmcg', emoji:'🫒', name:'Mamador Vegetable Oil — 5L', meta:'FMCG staple · Regular supply available', price:'₦8,200', badge:'deal', badgeText:'Recurring', desc:'Regular supply available. We source direct and can set up monthly standing order for your home or business.', specs:[{k:'Volume',v:'5 Litres'},{k:'Brand',v:'Mamador'},{k:'Supply',v:'Monthly available'},{k:'Min Order',v:'2 bottles'}] },
+  { id:10, cat:'appliances', emoji:'❄️', name:'Haier Thermocool 1.5HP AC (Split)', meta:'Clean unit · Cools well', price:'₦145,000', original:'₦185,000', badge:'used', badgeText:'Tested', desc:'Installed and tested for 72 hours. Cools a 16sqm room effectively. Remote, brackets, and installation guide included.', specs:[{k:'Capacity',v:'1.5 Horsepower'},{k:'Type',v:'Split Unit'},{k:'Condition',v:'Very Good'},{k:'Test',v:'72hr confirmed'}] },
+  { id:11, cat:'appliances', emoji:'🌀', name:'Binatone Blender — 1.5L, 3 speeds', meta:'Working perfectly · Tested', price:'₦18,500', badge:'used', badgeText:'Tested', desc:'All three speed settings work. Blades sharp. Glass jar no cracks. Rubbers intact. Tested multiple times.', specs:[{k:'Capacity',v:'1.5 Litres'},{k:'Speeds',v:'3 settings'},{k:'Condition',v:'Good'},{k:'Includes',v:'All parts'}] },
+  { id:12, cat:'baby', emoji:'🚼', name:'Graco Stroller — Foldable, Navy', meta:'Excellent condition · All parts working', price:'₦48,000', original:'₦85,000', badge:'used', badgeText:'Excellent', desc:'Graco Modes folding stroller. Canopy, straps, basket all intact. Wheels roll smooth. Cleaned and sanitised.', specs:[{k:'Brand',v:'Graco'},{k:'Type',v:'Foldable Travel'},{k:'Condition',v:'Excellent'},{k:'Weight limit',v:'22kg'}] },
+];
+
+// ── ARTISANS DATA ────────────────────────────────────────────────────────────
+const artisans = [
+  { emoji:'⚡', name:'Emmanuel Okafor', role:'Electrician', area:'Lagos, Nigeria 🇳🇬', rating:'4.9', jobs:'86', badge:'bg:#FF6B2B22' },
+  { emoji:'🚰', name:'James Mwangi', role:'Plumber', area:'Nairobi, Kenya 🇰🇪', rating:'4.8', jobs:'72', badge:'bg:#4A90E222' },
+  { emoji:'❄️', name:'Kwame Asante', role:'AC & Fridge Tech', area:'Accra, Ghana 🇬🇭', rating:'5.0', jobs:'114', badge:'bg:#2DD87A22' },
+  { emoji:'🔨', name:'Sipho Dlamini', role:'Carpenter', area:'Johannesburg, SA 🇿🇦', rating:'4.7', jobs:'59', badge:'bg:#FFD16622' },
+  { emoji:'🪣', name:'Rasheed Abiodun', role:'Tiler & POP', area:'Abuja, Nigeria 🇳🇬', rating:'4.8', jobs:'48', badge:'bg:#FF6B2B22' },
+  { emoji:'🎨', name:'Fatou Diallo', role:'Painter', area:'Dakar, Senegal 🇸🇳', rating:'4.9', jobs:'93', badge:'bg:#2DD87A22' },
+  { emoji:'⚙️', name:'Otieno Odhiambo', role:'Generator Repair', area:'Mombasa, Kenya 🇰🇪', rating:'4.7', jobs:'37', badge:'bg:#4A90E222' },
+  { emoji:'🔌', name:'Amaka Eze', role:'Electrician', area:'Port Harcourt, Nigeria 🇳🇬', rating:'5.0', jobs:'44', badge:'bg:#FFD16622' },
+];
+
+// ── RENDER PRODUCTS ──────────────────────────────────────────────────────────
+function renderProducts(filter='all') {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = products.map(p => {
+    const show = filter === 'all' || p.cat === filter;
+    return `
+    <div class="product-card ${show?'':'hidden'}" onclick="openProduct(${p.id})">
+      <div class="product-img" style="background:${p.cat==='fmcg'?'#1E1E1E':p.cat==='footwear'?'#1A1A2E':p.cat==='electronics'?'#1A1E1A':'#1E1A1A'}">
+        ${p.emoji}
+        <span class="product-badge badge-${p.badge}">${p.badgeText}</span>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">${p.meta}</div>
+        <div class="product-price">${p.price}${p.original?`<span class="original">${p.original}</span>`:''}</div>
+        <button class="product-action">View Details →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+// ── RENDER ARTISANS ──────────────────────────────────────────────────────────
+function renderArtisans() {
+  document.getElementById('artisansGrid').innerHTML = artisans.map(a => `
+    <div class="artisan-card">
+      <div class="artisan-avatar" style="background:${a.badge.replace('bg:','')};">${a.emoji}</div>
+      <div class="artisan-name">${a.name}</div>
+      <div class="artisan-role">${a.role} · ${a.area}</div>
+      <div class="artisan-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num">${a.rating}</span>
+      </div>
+      <div class="artisan-stats">
+        <div class="a-stat"><div class="a-stat-val">${a.jobs}</div><div class="a-stat-lab">Jobs done</div></div>
+        <div class="a-stat"><div class="a-stat-val">✅</div><div class="a-stat-lab">Vetted</div></div>
+      </div>
+      <button class="book-btn" onclick="bookArtisan('${a.name}','${a.role}')">Book ${a.name.split(' ')[0]}</button>
+    </div>
+  `).join('');
+}
+
+function bookArtisan(name, role) {
+  document.getElementById('artisanType').value = [...document.getElementById('artisanType').options].find(o => o.text.toLowerCase().includes(role.split(' ')[0].toLowerCase()))?.value || '';
+  scrollTo('#bookanartisan');
+  setTimeout(() => document.getElementById('artisanDesc').focus(), 600);
+}
+
+// ── PRODUCT MODAL ────────────────────────────────────────────────────────────
+function openProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('modalImg').textContent = p.emoji;
+  document.getElementById('modalName').textContent = p.name;
+  const badge = document.getElementById('modalBadge');
+  badge.textContent = p.badgeText;
+  badge.className = `product-badge badge-${p.badge}`;
+  document.getElementById('modalPrice').textContent = p.price;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalSpecs').innerHTML = p.specs.map(s => `<div class="spec-item"><div class="spec-key">${s.k}</div><div class="spec-val">${s.v}</div></div>`).join('');
+  document.getElementById('productModal').classList.add('open');
+}
+function closeProductModal() { document.getElementById('productModal').classList.remove('open'); }
+function closeModal(e) { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('open'); }
+function requestDeal() { closeProductModal(); scrollTo('#getadeal'); }
+
+// ── FORMS ────────────────────────────────────────────────────────────────────
+function genId(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,6).toUpperCase(); }
+
+function submitDeal() {
+  const p = document.getElementById('dealProducts').value;
+  const ph = document.getElementById('dealPhone').value;
+  if (!p || !ph) { alert('Please fill in at least the products and your phone number.'); return; }
+  document.getElementById('dealForm').style.display = 'none';
+  const s = document.getElementById('dealSuccess');
+  s.style.display = 'block';
+  document.getElementById('dealReqId').textContent = 'Request ID: ' + genId('PM-DEAL');
+}
+
+function submitSell() {
+  const b = document.getElementById('sellBrand').value;
+  const ph = document.getElementById('sellPhone').value;
+  if (!b || !ph) { alert('Please fill in the item details and your phone number.'); return; }
+  document.getElementById('sellForm').style.display = 'none';
+  const s = document.getElementById('sellSuccess');
+  s.style.display = 'block';
+  document.getElementById('sellReqId').textContent = 'Request ID: ' + genId('PM-SELL');
+}
+
+function submitArtisan() {
+  const d = document.getElementById('artisanDesc').value;
+  const ph = document.getElementById('artisanPhone').value;
+  if (!d || !ph) { alert('Please describe the job and provide your phone number.'); return; }
+  document.getElementById('artisanForm').style.display = 'none';
+  const s = document.getElementById('artisanSuccess');
+  s.style.display = 'block';
+  document.getElementById('artisanReqId').textContent = 'Request ID: ' + genId('PM-JOB');
+}
+
+function selectCondition(el, val) {
+  document.querySelectorAll('.cond-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── INVESTOR MODAL ───────────────────────────────────────────────────────────
+function openInvestorModal() { document.getElementById('investorModal').classList.add('open'); }
+function submitInvestorRequest() {
+  document.getElementById('investorModal').classList.remove('open');
+  setTimeout(() => alert('Thank you! We will send the investor deck to your email/WhatsApp within 24 hours.'), 300);
+}
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+function setHiwTab(tab, btn) {
+  document.querySelectorAll('.hiw-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.hiw-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('hiw-' + tab).classList.add('active');
+}
+
+function setVertical(el, idx) {
+  document.querySelectorAll('.vertical-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── SCROLL HELPER ────────────────────────────────────────────────────────────
+function scrollTo(sel) {
+  const el = document.querySelector(sel);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── ANIMATED COUNTERS ────────────────────────────────────────────────────────
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = prefix + Math.floor(current).toLocaleString() + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 25);
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); observer.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => observer.observe(el));
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+renderProducts();
+renderArtisans();
+</script>
+</body>
+</html>
